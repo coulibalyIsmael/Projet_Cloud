@@ -11,9 +11,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <body class="row>
+    <body class="row">
           <h1>Cloud Service Consumer</h1>
-          <form method="POST" action="http://localhost:8084/JADE_JSP/GatewayServlet" >
+          <form method="post" action="http://localhost:8084/JADE_JSP/GatewayServlet" >
           <fieldset>
             <legend>Inscription</legend>
             <br />
@@ -38,55 +38,55 @@
                         <td><label for="compute">Compute</label></td>
                         <td>
                             <span class="radio radio-info radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="compute" name="radioInline" checked=""/>
+                                <input type="radio" id="computeRadioLevel3" value="computeRadio1" name="computeRadio" checked=""/>
                             </span>
                         </td>
                         <td>
                             <span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="compute" name="radioInline"/>
+                                <input type="radio" id="computeRadioLevel3" value="computeRadio2" name="computeRadio"/>
                             </span>
                         </td>
                         <td><span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="compute" name="radioInline"/>
+                                <input type="radio" id="computeRadioLevel3" value="computeRadio3" name="computeRadio"/>
 
                             </span>
                         </td>
                     </tr>
                     <tr class="text-center">
                         <th scope="row">2</th>
-                        
+
                         <td><label for="compute">Network</label></td>
                         <td>
                             <span class="radio radio-info radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="NetworkRadio" name="radioInline" checked=""/>
+                                <input type="radio" id="computeRadioLevel3" value="NetworkRadio3" name="NetworkRadio" checked=""/>
                             </span>
                         </td>
                         <td>
                             <span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="networkRadio" name="radioInline"/>
+                                <input type="radio" id="computeRadioLevel3" value="networkRadio3" name="NetworkRadio"/>
                             </span>
                         </td>
                         <td><span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="networkRadio" name="radioInline"/>
+                                <input type="radio" id="computeRadioLevel3" value="networkRadio3" name="NetworkRadio"/>
 
                             </span>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">3</th>
-                       <td><label for="compute">Storage</label></td>
+                        <td><label for="compute">Storage</label></td>
                         <td>
                             <span class="radio radio-info radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="storageRadio" name="radioInline" checked=""/>
+                                <input type="radio" id="computeRadioLevel3" value="storageRadio1" name="storageRadio" checked=""/>
                             </span>
                         </td>
                         <td>
                             <span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="storageRadio" name="radioInline"/>
+                                <input type="radio" id="computeRadioLevel3" value="storageRadio2" name="storageRadio"/>
                             </span>
                         </td>
                         <td><span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="storageRadio" name="radioInline"/>
+                                <input type="radio" id="computeRadioLevel3" value="storageRadio3" name="storageRadio"/>
 
                             </span>
                         </td>
@@ -94,8 +94,8 @@
                 </tbody>
             </table>
 
-                <input class="btn btn-primary" type="submit"  name="valider"  value="Register & Find"/><br/>
-                
+            <input class="btn btn-primary" type="submit"  name="valider"  value="Find"/><br/>
+
         </fieldset>
     </form>
 </body>
