@@ -5,7 +5,8 @@
  */
 package servlet;
 
-import bean.CloudServiceCustomer;
+import bean.*;
+import jade.core.AID;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.Profile;
@@ -24,15 +25,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+
+import agents.*;
+
+//----------------------------------
+import java.io.IOException;
+
+
 /**
  *
  * @author couli
  */
 @WebServlet(name = "GatewayServlet", urlPatterns = {"/GatewayServlet"})
 public class GatewayServlet extends HttpServlet {
+    
+    static final long serialVersionUID = 1L;
+    private JadeGateway gateway ;
 
-    private JadeGateway gateway = null;
+    //public JadeGateway gateway = null;
     public CloudServiceCustomer csc;
+    private int computeLevel;
+    private int networkLevel;
+    private int storageLevel;
+    private String nameCSC;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,45 +61,48 @@ public class GatewayServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        response.setContentType("text/html;charset=UTF-8");
+
+        //response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String title = "Test de la classe JadeGateway";
-        String nom = request.getParameter("nom");
-        String[] listServices = request.getParameterValues("service");
-        csc = new CloudServiceCustomer(nom, listServices);
+        nameCSC = request.getParameter("consumerName");
+        //String[] listServices = request.getParameterValues("service");
+        computeLevel = Integer.parseInt(request.getParameter("computeRadio"));
+        networkLevel = Integer.parseInt(request.getParameter("networkRadio"));
+        storageLevel = Integer.parseInt(request.getParameter("storageRadio"));
+        
+        System.out.println(storageLevel);
+
+        csc = new CloudServiceCustomer(nameCSC);
+        csc.addServices("Compute", computeLevel);
+        csc.addServices("Storage", storageLevel);
+        csc.addServices("Network", networkLevel);
         try {
-            JadeGateway.execute(csc);
+            gateway.execute(csc);
         } catch (Exception e) {
+            e.printStackTrace();
+                    
         }
-        
+
         response.setContentType("text/html");
-        
-        out.print("Cloud Service Consumer" + csc.name + "<br>");
+
+        out.print("Cloud Service Consumer: " + csc.name + "<br>");
         for (int i = 0; i < csc.listeProviders.size(); i++) {
-            out.print("Provider: "+i +"  " + csc.listeProviders.get(i).getName() + "<br>");
+            out.print("Provider: " + i + "  " + csc.listeProviders.get(i).getName() + "<br>");
         }
-        
+
         out.print("<br/><a href='index.html'> Retour</a>");
-        
+
         out.flush();
         out.close();
-        
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //processRequest(request, response);
     }
 
     /**
@@ -110,12 +129,15 @@ public class GatewayServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    @Override
+    
+     @Override
     public void init() throws ServletException {
         Properties pp = new Properties();
         pp.setProperty(Profile.MAIN_HOST, "localhost");
         pp.setProperty(Profile.MAIN_PORT, "1099");
         JadeGateway.init("agents.MonAgent", pp);
-    }    
-    
+    }  
+
+   
+
 }

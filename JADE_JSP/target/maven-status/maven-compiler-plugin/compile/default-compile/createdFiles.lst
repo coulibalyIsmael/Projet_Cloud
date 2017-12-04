@@ -1,6 +1,9 @@
-servlet\MainServlet.class
+bean\CloudServiceProvider.class
 servlet\ProviderRegistration.class
+agents\MonAgent.class
+bean\MyService.class
+servlet\createProvider.class
+servlet\MainServlet.class
 servlet\CreateConsumer.class
 bean\CloudServiceCustomer.class
-agents\MonAgent.class
 servlet\GatewayServlet.class

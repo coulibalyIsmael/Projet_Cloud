@@ -38,16 +38,16 @@
                         <td><label for="compute">Compute</label></td>
                         <td>
                             <span class="radio radio-info radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="1" name="computeRadio" checked=""/>
+                                <input type="radio" id="computeRadioLevel3" value="computeRadio1" name="computeRadio" checked=""/>
                             </span>
                         </td>
                         <td>
                             <span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="2" name="computeRadio"/>
+                                <input type="radio" id="computeRadioLevel3" value="computeRadio2" name="computeRadio"/>
                             </span>
                         </td>
                         <td><span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="c3" name="computeRadio"/>
+                                <input type="radio" id="computeRadioLevel3" value="computeRadio3" name="computeRadio"/>
 
                             </span>
                         </td>
@@ -58,16 +58,16 @@
                         <td><label for="compute">Network</label></td>
                         <td>
                             <span class="radio radio-info radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="1" name="networkRadio" checked=""/>
+                                <input type="radio" id="computeRadioLevel3" value="NetworkRadio3" name="NetworkRadio" checked=""/>
                             </span>
                         </td>
                         <td>
                             <span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="2" name="networkRadio"/>
+                                <input type="radio" id="computeRadioLevel3" value="networkRadio3" name="NetworkRadio"/>
                             </span>
                         </td>
                         <td><span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="3" name="networkRadio"/>
+                                <input type="radio" id="computeRadioLevel3" value="networkRadio3" name="NetworkRadio"/>
 
                             </span>
                         </td>
@@ -77,16 +77,16 @@
                         <td><label for="compute">Storage</label></td>
                         <td>
                             <span class="radio radio-info radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="1" name="storageRadio" checked=""/>
+                                <input type="radio" id="computeRadioLevel3" value="storageRadio1" name="storageRadio" checked=""/>
                             </span>
                         </td>
                         <td>
                             <span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="2" name="storageRadio"/>
+                                <input type="radio" id="computeRadioLevel3" value="storageRadio2" name="storageRadio"/>
                             </span>
                         </td>
                         <td><span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="3" name="storageRadio"/>
+                                <input type="radio" id="computeRadioLevel3" value="storageRadio3" name="storageRadio"/>
 
                             </span>
                         </td>

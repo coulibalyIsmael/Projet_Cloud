@@ -7,6 +7,7 @@ package bean;
 
 import jade.domain.FIPAAgentManagement.Property;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -15,11 +16,11 @@ import java.util.ArrayList;
  */
 public class MyService implements Serializable{
     private String type;
-    private ArrayList<Property> properties;
+    private ArrayList<Property> prop;
     private String name;
 
     public MyService() {
-        
+        prop = new  ArrayList<>();
     }
 
     /**
@@ -40,15 +41,9 @@ public class MyService implements Serializable{
      * @return the properties
      */
     public ArrayList<Property> getProperties() {
-        return properties;
+        return prop;
     }
 
-    /**
-     * @param properties the properties to set
-     */
-    public void setProperties(ArrayList<Property> properties) {
-        this.properties = properties;
-    }
 
     /**
      * @return the name
@@ -64,8 +59,8 @@ public class MyService implements Serializable{
         this.name = name;
     }
     
-    public void addPropertyService(Property prop){
-        this.properties.add(prop);
+    public void addPropertyService(String nameProperty, int levelProperty){
+        this.prop.add(new Property(nameProperty, levelProperty));
     }
     
     
