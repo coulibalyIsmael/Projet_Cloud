@@ -20,27 +20,27 @@ import org.dom4j.io.XMLWriter;
  *
  * @author couli
  */
-public class CloudServiceCustomer implements Serializable{
+public class CloudServiceConsumer implements Serializable{
     
 public ArrayList<AID> listeProviders = null;
 public String name;
 public String[] listeChoix;
-private MyService services ;
+private ArrayList<MyService> consumerServices ;
 
 //constructionn 
-public CloudServiceCustomer(String name){
+public CloudServiceConsumer(String name){
     this.name = name;
     listeProviders = new  ArrayList<>();
-    services = new MyService();
+    consumerServices = new ArrayList();
 }
-    public CloudServiceCustomer(String name, String[] services) {
+    public CloudServiceConsumer(String name, String[] services) {
         this.name  = name;
         listeChoix = services;
         listeProviders = new  ArrayList<>();
     }
     
   //getters and setters
-    public CloudServiceCustomer(){
+    public CloudServiceConsumer(){
         
     }
   public void setName(String name){
@@ -50,12 +50,17 @@ public CloudServiceCustomer(String name){
   public String getName(){
       return this.name;
   }
-  public void addServices(String serviceName, int level){
-      this.services.addPropertyService(serviceName, level);
+  public void addServices(String service, int level){
+      MyService srv = new MyService();
+        srv.setName(service);
+        srv.setType(String.valueOf(level));
+     
+        this.consumerServices.add(srv);
+      
   }
-  public MyService getServices()
+  public ArrayList<MyService> getServices()
   {
-      return this.services;
+      return this.consumerServices;
   }
   
   

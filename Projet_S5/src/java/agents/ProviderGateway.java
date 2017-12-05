@@ -6,7 +6,7 @@
 package agents;
 
 import jade.wrapper.gateway.GatewayAgent;
-import bean.CloudServiceCustomer;
+import bean.CloudServiceConsumer;
 import bean.CloudServiceProvider;
 import bean.MyService;
 import jade.core.AID;
@@ -69,7 +69,7 @@ public class ProviderGateway extends GatewayAgent{
         System.out.println(this.getLocalName() + "--------+++++++++++-----------");
     }
 
-    DFAgentDescription[] searchDF(String service, CloudServiceCustomer obj) //  ---------------------------------
+    DFAgentDescription[] searchDF(String service, CloudServiceConsumer obj) //  ---------------------------------
     {
         DFAgentDescription dfd = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();

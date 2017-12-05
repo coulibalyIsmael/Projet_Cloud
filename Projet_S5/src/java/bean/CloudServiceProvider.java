@@ -17,10 +17,10 @@ import java.util.ArrayList;
  */
 public class CloudServiceProvider implements Serializable{
     private String name;
-    private MyService providerServices;
+    private ArrayList<MyService> providerServices;
 
     public CloudServiceProvider() {
-        providerServices = new MyService();
+        providerServices = new ArrayList();
         
     }
 
@@ -37,20 +37,20 @@ public class CloudServiceProvider implements Serializable{
     /**
      * @return the providerServices
      */
-    public MyService getProviderServices() {
+    public ArrayList<MyService> getProviderServices() {
         return providerServices;
     }
 
     /**
      * @param providerServices the providerServices to set
      */
-    public void setProviderServices(String service, int level) {
+   
+     public void addServices(String service, int level){
+      MyService srv = new MyService();
+        srv.setName(service);
+        srv.setType(String.valueOf(level));
      
-        this.providerServices.addPropertyService(service, level);
-       
-    }
-     public void addServices(String serviceName, int level){
-      this.providerServices.addPropertyService(serviceName, level);
+        this.providerServices.add(srv);
   }
   
     

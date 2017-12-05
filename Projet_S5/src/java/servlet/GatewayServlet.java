@@ -44,7 +44,7 @@ public class GatewayServlet extends HttpServlet {
     private JadeGateway gateway ;
 
     //public JadeGateway gateway = null;
-    public CloudServiceCustomer csc;
+    public CloudServiceConsumer csc;
     private int computeLevel;
     private int networkLevel;
     private int storageLevel;
@@ -73,7 +73,7 @@ public class GatewayServlet extends HttpServlet {
         
         System.out.println(storageLevel);
 
-        csc = new CloudServiceCustomer(nameCSC);
+        csc = new CloudServiceConsumer(nameCSC);
         csc.setName(nameCSC);
         csc.addServices("Compute", computeLevel);
         csc.addServices("Storage", storageLevel);

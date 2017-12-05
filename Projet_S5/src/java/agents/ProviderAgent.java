@@ -42,6 +42,7 @@ public class ProviderAgent extends Agent implements CloudMarketVocabulary {
         sb.addSubBehaviour(new RegisterInDF(this));
         addBehaviour(sb);
         }
+        
         //create the provider with the appropriate name
        System.out.println(args +" Agent ");
 
@@ -59,22 +60,34 @@ public class ProviderAgent extends Agent implements CloudMarketVocabulary {
         @Override
         public void action() {
             //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            ServiceDescription sd = new ServiceDescription();
-            sd.setType("Cloud_Service_Provider");
-            sd.setName(getName());
-            for (Property prop : csp.getProviderServices().getProperties()) {
-                sd.addProperties(prop);
+            
+            //for(A)
+            //ServiceDescription sd = new ServiceDescription();
+           DFAgentDescription dfd = new DFAgentDescription();
+           dfd.setName(getAID());
+            
+            for (MyService srv : csp.getProviderServices()) {
+                ServiceDescription sd = new ServiceDescription();
+                sd.setName(srv.getName());
+                sd.setType(srv.getType());
+                sd.setOwnership(csp.getName());
+                dfd.addServices(sd);
+                
             }
-
-            DFAgentDescription dfd = new DFAgentDescription();
-            dfd.setName(getAID());
-            dfd.addServices(sd);
+            
             try {
-                DFService.register(myAgent, dfd);
-                System.out.println(" Service added into the DF pages");
-            } catch (Exception e) {
-                doDelete();
+            DFAgentDescription[] dfds = DFService.search(myAgent, dfd);
+            if (dfds.length > 0 ) {
+               DFService.deregister(myAgent, dfd);
             }
+            DFService.register(myAgent, dfd);
+            System.out.println(getLocalName() + " is ready.");
+         }
+         catch (Exception ex) {
+            System.out.println("Failed registering with DF! Shutting down...");
+            ex.printStackTrace();
+            doDelete();
+         }
 
         }
     }

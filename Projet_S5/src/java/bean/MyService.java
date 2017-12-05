@@ -16,12 +16,8 @@ import java.util.ArrayList;
  */
 public class MyService implements Serializable{
     private String type;
-    private ArrayList<Property> prop;
     private String name;
 
-    public MyService() {
-        prop = new  ArrayList<>();
-    }
 
     /**
      * @return the type
@@ -35,13 +31,6 @@ public class MyService implements Serializable{
      */
     public void setType(String type) {
         this.type = type;
-    }
-
-    /**
-     * @return the properties
-     */
-    public ArrayList<Property> getProperties() {
-        return prop;
     }
 
 
@@ -59,9 +48,7 @@ public class MyService implements Serializable{
         this.name = name;
     }
     
-    public void addPropertyService(String nameProperty, int levelProperty){
-        this.prop.add(new Property(nameProperty, levelProperty));
-    }
+  
     
     
     

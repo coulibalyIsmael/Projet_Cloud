@@ -5,7 +5,7 @@
  */
 package agents;
 
-import bean.CloudServiceCustomer;
+import bean.CloudServiceConsumer;
 import bean.MyService;
 import jade.core.AID;
 import jade.core.Agent;
@@ -20,6 +20,7 @@ import jade.util.leap.Iterator;
 import jade.wrapper.gateway.*;
 import java.util.Properties;
 import jade.domain.FIPAAgentManagement.Property;
+import java.util.ArrayList;
 
 /**
  *
@@ -35,12 +36,12 @@ public class MonAgent extends GatewayAgent {
     protected void processCommand(Object obj) {
         System.out.println(this.getLocalName() + "--------******************----------");
 
-        if (obj instanceof CloudServiceCustomer) {
-            CloudServiceCustomer csc = (CloudServiceCustomer) obj;
+        if (obj instanceof CloudServiceConsumer) {
+            CloudServiceConsumer csc = (CloudServiceConsumer) obj;
             String catService = "";
-           MyService service = csc.getServices();
-           for(Property prop : csc.getServices().getProperties())
-                System.out.println(prop.getName()+prop.getValue());
+            ArrayList<MyService> service = csc.getServices();
+           for(MyService srv: csc.getServices())
+                System.out.println(srv.getName()+srv.getType());
 
            // final String CAT_SERVICE = catService;
            // System.out.println(catService);
@@ -112,7 +113,7 @@ public class MonAgent extends GatewayAgent {
         System.out.println(this.getLocalName() + "--------+++++++++++-----------");
     }
 
-    DFAgentDescription[] searchDF(String service, CloudServiceCustomer obj) //  ---------------------------------
+    DFAgentDescription[] searchDF(String service, CloudServiceConsumer obj) //  ---------------------------------
     {
         DFAgentDescription dfd = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
