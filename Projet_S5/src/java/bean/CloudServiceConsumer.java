@@ -5,87 +5,98 @@
  */
 package bean;
 
+import interfaces.CloudServicex;
 import jade.core.AID;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletResponse;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 
 /**
  *
  * @author couli
  */
-public class CloudServiceConsumer implements Serializable{
-    
-public ArrayList<AID> listeProviders = null;
-public String name;
-public String[] listeChoix;
-private ArrayList<MyService> consumerServices ;
+public class CloudServiceConsumer implements Serializable, CloudServicex {
+
+    public ArrayList<AID> listeProviders = null;
+    public String name;
+    private ArrayList<MyService> consumerServices;
+    private String ID;
+    private SecureOffer secureOffer ;
 
 //constructionn 
-public CloudServiceConsumer(String name){
-    this.name = name;
-    listeProviders = new  ArrayList<>();
-    consumerServices = new ArrayList();
-}
+    public CloudServiceConsumer(String name) {
+        this.name = name;
+        listeProviders = new ArrayList<>();
+        consumerServices = new ArrayList();
+        secureOffer = new SecureOffer();
+    }
+
     public CloudServiceConsumer(String name, String[] services) {
-        this.name  = name;
-        listeChoix = services;
-        listeProviders = new  ArrayList<>();
+        this.name = name;
+        listeProviders = new ArrayList<>();
     }
-    
-  //getters and setters
-    public CloudServiceConsumer(){
-        
+
+    //getters and setters
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
-  public void setName(String name){
-      this.name = name;
-  }
-  
-  public String getName(){
-      return this.name;
-  }
-  public void addServices(String service, int level){
-      MyService srv = new MyService();
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public void addServices(String service, int level) {
+        MyService srv = new MyService();
         srv.setName(service);
         srv.setType(String.valueOf(level));
-     
+
         this.consumerServices.add(srv);
-      
-  }
-  public ArrayList<MyService> getServices()
-  {
-      return this.consumerServices;
-  }
-  
-  
-   public void createXmlFile() {
+
+    }
+
+    @Override
+    public ArrayList<MyService> getServices() {
+        return this.consumerServices;
+    }
+
+    public void createXmlFile(String path) {
 
         try {
+            System.out.println("Creatin du fichier offer");
             Document document = DocumentHelper.createDocument();
             Element root = document.addElement("offer");
             root.addElement("id")
-                    .addAttribute("company", "Ferrai");
+                    .addText(this.getID());
+            root.addElement("name")
+                    .addText(this.getName());
 
-            root.addElement("compute")
-                    .addText("");
-
-            root.addElement("storage")
-                    .addText("");
-
-            root.addElement("network")
-                    .addText("");
+            for (MyService srv : consumerServices) {
+                root.addElement(srv.getName())
+                        .addText(srv.getType());
+            }
 
             // Pretty print the document to System.out
             // lets write to a file
-            XMLWriter writer = new XMLWriter(new FileWriter("offer.xml"));
+            FileOutputStream fos = new FileOutputStream(path + "offer.xml");
+            OutputFormat format = OutputFormat.createPrettyPrint();
+            XMLWriter writer = new XMLWriter(fos, format);
             writer.write(document);
-            writer.close();
+            System.out.println("fin de l'écriture dans le fichier");
+            writer.flush();
+
+            //XMLWriter writer = new XMLWriter(new FileWriter(this.getName()+"comsumer_offer.xml"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -93,4 +104,15 @@ public CloudServiceConsumer(String name){
         }
 
     }
+
+    @Override
+    public String getID() {
+        return ID;
+    }
+
+    @Override
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
 }

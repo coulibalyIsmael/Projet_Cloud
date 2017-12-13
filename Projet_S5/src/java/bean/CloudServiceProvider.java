@@ -5,54 +5,69 @@
  */
 package bean;
 
+import interfaces.CloudServicex;
 import jade.core.Agent;
 import jade.domain.FIPAAgentManagement.Property;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.ArrayList;
+import org.w3c.dom.Document;
 
 /**
  *
  * @author couli
  */
-public class CloudServiceProvider implements Serializable{
+public class CloudServiceProvider implements Serializable, CloudServicex {
+
     private String name;
     private ArrayList<MyService> providerServices;
+    private String idProvider;
 
     public CloudServiceProvider() {
         providerServices = new ArrayList();
-        
+
     }
 
-   
+    @Override
     public void setName(String name) {
-      
+
         this.name = name;
-      
+
     }
-    public String  getName(){
+
+    @Override
+    public String getName() {
         return this.name;
     }
 
     /**
      * @return the providerServices
      */
-    public ArrayList<MyService> getProviderServices() {
+    @Override
+    public ArrayList<MyService> getServices() {
         return providerServices;
     }
 
     /**
      * @param providerServices the providerServices to set
      */
-   
-     public void addServices(String service, int level){
-      MyService srv = new MyService();
+    @Override
+    public void addServices(String service, int level) {
+        MyService srv = new MyService();
         srv.setName(service);
         srv.setType(String.valueOf(level));
-     
+
         this.providerServices.add(srv);
-  }
-  
-    
-    
+    }
+
+    @Override
+    public void setID(String id) {
+        this.idProvider = id;
+    }
+
+    @Override
+    public String getID() {
+        return this.idProvider;
+    }
+
 }

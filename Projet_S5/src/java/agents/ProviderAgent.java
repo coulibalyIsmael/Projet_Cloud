@@ -66,7 +66,7 @@ public class ProviderAgent extends Agent implements CloudMarketVocabulary {
            DFAgentDescription dfd = new DFAgentDescription();
            dfd.setName(getAID());
             
-            for (MyService srv : csp.getProviderServices()) {
+            for (MyService srv : csp.getServices()) {
                 ServiceDescription sd = new ServiceDescription();
                 sd.setName(srv.getName());
                 sd.setType(srv.getType());

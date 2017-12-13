@@ -93,6 +93,7 @@
                     </tr>
                 </tbody>
             </table>
+            <input class="btn btn-primary" type="submit" name="saveXML" value="Save offer">
 
             <input class="btn btn-primary" type="submit"  name="valider"  value="Register"/><br/>
 

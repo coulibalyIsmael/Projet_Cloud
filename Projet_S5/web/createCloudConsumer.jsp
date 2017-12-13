@@ -47,7 +47,7 @@
                             </span>
                         </td>
                         <td><span class="radio radio-inline">
-                                <input type="radio" id="computeRadioLevel3" value="c3" name="computeRadio"/>
+                                <input type="radio" id="computeRadioLevel3" value="3" name="computeRadio"/>
 
                             </span>
                         </td>
@@ -93,10 +93,17 @@
                     </tr>
                 </tbody>
             </table>
+            <input class="btn btn-primary" type="submit" name="saveXML" value="Save offer">
 
             <input class="btn btn-primary" type="submit"  name="valider"  value="Find"/><br/>
+            
 
         </fieldset>
     </form>
+          
+          <form  method="get" action="XmlServlet">
+<input type="submit" value="Generate XML report">
+
+</form>
 </body>
 </html>

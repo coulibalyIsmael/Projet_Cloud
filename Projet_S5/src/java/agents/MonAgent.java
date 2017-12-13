@@ -46,10 +46,10 @@ public class MonAgent extends GatewayAgent {
            // final String CAT_SERVICE = catService;
            // System.out.println(catService);
             //--------------------------------------------------------------------------------
-           /*DFAgentDescription[] result = searchDF("provider", (CloudServiceCustomer) obj);
+           DFAgentDescription[] result = searchDF("storage", (CloudServiceConsumer) obj);
            int count = 0;
            for(int i=0; i<result.length; i++)
-           csc.listeProviders.add(result[i].getName()); */
+            csc.listeProviders.add(result[i].getName()); 
                     
                     releaseCommand(csc);
                     /* Debut:
@@ -115,9 +115,10 @@ public class MonAgent extends GatewayAgent {
 
     DFAgentDescription[] searchDF(String service, CloudServiceConsumer obj) //  ---------------------------------
     {
+        //supposition que tous les providers offrent les trois services storage compute et network
         DFAgentDescription dfd = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
-        sd.setType(service);
+        sd.setName(service);
         dfd.addServices(sd);
 
         SearchConstraints ALL = new SearchConstraints();
@@ -125,10 +126,7 @@ public class MonAgent extends GatewayAgent {
 
         try {
             DFAgentDescription[] result = DFService.search(this, dfd, ALL);
-            //AID[] agents = new AID[result.length];
-
-            /*for (int i=0; i<result.length; i++) 
-				agents[i] = result[i].getName() ;*/
+            
             return result;
 
         } catch (FIPAException fe) {

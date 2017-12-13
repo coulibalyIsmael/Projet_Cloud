@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<offer>
+<id>1158591502</id>
+<name>Consumer2</name>
+<Compute>2</Compute>
+<Storage>2</Storage>
+<Network>2</Network>
+</offer>

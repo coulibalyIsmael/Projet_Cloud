@@ -9,13 +9,28 @@ import bean.*;
 import jade.core.Profile;
 import jade.util.leap.Properties;
 import jade.wrapper.gateway.JadeGateway;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Random;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 /**
  *
@@ -49,10 +64,9 @@ public class ProviderGatewayServlet extends HttpServlet {
         csp.addServices("Storage", storageLevel);
         csp.addServices("Network", networkLevel);
         try {
-            if(!gateway.isGatewayActive())
+           
                 gateway.execute(csp);
-            else
-                System.out.println(gateway.isGatewayActive());
+            
         } catch (Exception e) {
             e.printStackTrace();
                     
@@ -108,4 +122,63 @@ public class ProviderGatewayServlet extends HttpServlet {
         pp.setProperty(Profile.MAIN_PORT, "1099");
         JadeGateway.init("agents.ProviderGateway", pp);
     }  
+    
+    
+    
+    public void createXmlFile(Document doc, ServletContext servletContext) throws Exception {
+
+        //System.out.println("Creatin du fichier offer");
+        
+        Element root = doc.createElement("offer");
+        doc.appendChild(root);
+
+        //ID tag
+        Element id = doc.createElement("id");
+        root.appendChild(id);
+        Text textID = doc.createTextNode("" + hashCode() + new Random().nextInt());
+        id.appendChild(textID);
+
+        //Name tag
+        Element name = doc.createElement("name");
+        root.appendChild(name);
+        Text textName = doc.createTextNode(csp.getName());
+        name.appendChild(textName);
+
+        for (MyService service : csp.getServices()) {
+            Element tag = doc.createElement(service.getName());
+            root.appendChild(tag);
+            Text text = doc.createTextNode(service.getType());
+            tag.appendChild(text);
+
+        }
+
+        //System.out.println("fin de l'écriture dans le fichier----------------------------------------------////*/8898*528");
+
+        TransformerFactory factory = TransformerFactory.newInstance();
+        Transformer transformer = factory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        StringWriter sw = new StringWriter();
+        StreamResult result = new StreamResult(sw);
+        DOMSource source = new DOMSource(doc);
+        transformer.transform(source, result);
+        String xmlString = sw.toString();
+         //System.out.println("fichier creeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee**************");
+        File file = new File("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml");
+        //File file = new File("D:/offer.xml");
+        System.out.println(file.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+        bw.write(xmlString);
+        bw.flush();
+        bw.close();
+       
+        
+
+        //return document;
+        //XMLWriter writer = new XMLWriter(new FileWriter(this.getName()+"comsumer_offer.xml"));
+        /*} catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
 }

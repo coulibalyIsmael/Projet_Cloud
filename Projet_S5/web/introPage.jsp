@@ -4,6 +4,7 @@
     <h1>Welcome Cloud Market platform</h1>
     <p> Cloud Service Consumer: <a href="CreateConsumer">click here</a></p>
     <p>Cloud Service Provider: <a href="createProviderServlet">click here</a></p>
+    
     <%-- Le forwarding vers une page de l'application fonctionne par URL relative : --%>
 
 <%-- Son équivalent en code Java  est : --%>
