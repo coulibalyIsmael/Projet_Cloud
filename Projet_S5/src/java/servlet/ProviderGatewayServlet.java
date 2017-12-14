@@ -6,6 +6,7 @@
 package servlet;
 
 import bean.*;
+import jade.core.AID;
 import jade.core.Profile;
 import jade.util.leap.Properties;
 import jade.wrapper.gateway.JadeGateway;
@@ -41,19 +42,30 @@ public class ProviderGatewayServlet extends HttpServlet {
 
    private String nameCSP;
    private int computeLevel, networkLevel, storageLevel;
+           private String secureComputeLevel, secureNetworkLevel, secureStorageLevel;
    private JadeGateway gateway;
    public CloudServiceProvider csp;
+   private String pathFile;
+   
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+       ServletContext servletContext = getServletContext();
         String title = "Test de la classe JadeGateway";
         nameCSP = request.getParameter("providerName");
         //String[] listServices = request.getParameterValues("service");
+        //service level
         computeLevel = Integer.parseInt(request.getParameter("computeRadio"));
         networkLevel = Integer.parseInt(request.getParameter("networkRadio"));
         storageLevel = Integer.parseInt(request.getParameter("storageRadio"));
+        
+        //security level
+        secureComputeLevel =request.getParameter("computeSecureRadio");
+        secureStorageLevel =request.getParameter("storageSecureRadio");
+        secureNetworkLevel = request.getParameter("networkSecureRadio");
+        
+        
         
         System.out.println(storageLevel);
 
@@ -63,8 +75,20 @@ public class ProviderGatewayServlet extends HttpServlet {
         csp.addServices("Compute", computeLevel);
         csp.addServices("Storage", storageLevel);
         csp.addServices("Network", networkLevel);
+        
+        //secure offer
+        csp.getSecureOffer().addServices("secureCompute", secureComputeLevel);
+        csp.getSecureOffer().addServices("secureNetwork", secureNetworkLevel);
+        csp.getSecureOffer().addServices("secureStorage", secureStorageLevel);
+        csp.getSecureOffer().setPrice(Integer.parseInt(request.getParameter("price")));
+        
+        //ID du provider
+        csp.setID(""+new Random().nextInt(Integer.MAX_VALUE));
         try {
-           
+            pathFile = servletContext.getRealPath("/WEB-INF/outputXML")+"\\secureOfferClient.xml";
+            new CreateSecureOfferXML().createXmlFile(csp,pathFile);
+            new CreateOfferXML().createXmlFile(csp, pathFile);
+                
                 gateway.execute(csp);
             
         } catch (Exception e) {

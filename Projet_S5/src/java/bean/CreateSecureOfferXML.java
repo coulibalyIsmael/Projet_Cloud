@@ -25,9 +25,9 @@ import org.w3c.dom.Text;
  *
  * @author couli
  */
-public class CreateSecureOffer {
+public class CreateSecureOfferXML {
     
-     public void createXmlFile(CloudServicex obj) throws Exception {
+    public void createXmlFile(CloudServicex obj, String path) throws Exception {
 
                 DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
@@ -41,7 +41,7 @@ public class CreateSecureOffer {
             //ID tag
             Element id = doc.createElement("id");
             root.appendChild(id);
-            Text textID = doc.createTextNode("" + new Random().nextInt());
+            Text textID = doc.createTextNode(csc.getID());
             id.appendChild(textID);
 
             //Name tag
@@ -49,8 +49,14 @@ public class CreateSecureOffer {
             root.appendChild(name);
             Text textName = doc.createTextNode(csc.getName());
             name.appendChild(textName);
+            
+            //price tag
+            Element price = doc.createElement("price");
+            root.appendChild(price);
+            Text priceText = doc.createTextNode(""+csc.getSecureOffer().getPrice());
+            price.appendChild(priceText);
 
-            for (MyService service : csc.getServices()) {
+            for (MyService service : csc.getSecureOffer().getServices()) {
                 Element tag = doc.createElement(service.getName());
                 root.appendChild(tag);
                 Text text = doc.createTextNode(service.getType());
@@ -73,7 +79,7 @@ public class CreateSecureOffer {
             // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml"))));
             // BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml")); 
             System.out.println("le monde ++++");
-            FileWriter filewritter = new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offerConsumer.xml");
+            FileWriter filewritter = new FileWriter(path);
             BufferedWriter bw = new BufferedWriter(filewritter);
             //filewritter = null;
 
@@ -84,18 +90,14 @@ public class CreateSecureOffer {
         } else {
 
             CloudServiceProvider csp = (CloudServiceProvider) obj;
-            Element root = doc.createElement("secureoffer");
+            Element root = doc.createElement("offer");
             doc.appendChild(root);
-            //price tage
-            Element price = doc.createElement("price");
-            root.appendChild(price);
-            Text textPrice = doc.createTextNode(""+csp.getSecureOffer().getPrice());
-            price.appendChild(textPrice);
+            
 
             //ID tag
             Element id = doc.createElement("id");
             root.appendChild(id);
-            Text textID = doc.createTextNode("" + csp.getSecureOffer().getPrice());
+            Text textID = doc.createTextNode(csp.getID());
             id.appendChild(textID);
 
             //Name tag
@@ -104,6 +106,12 @@ public class CreateSecureOffer {
             Text textName = doc.createTextNode(csp.getName());
             name.appendChild(textName);
 
+            //price tag
+            Element price = doc.createElement("price");
+            root.appendChild(textID);
+            Text priceText = doc.createTextNode(""+csp.getSecureOffer().getPrice());
+            price.appendChild(priceText);
+            
             for (MyService service : csp.getServices()) {
                 Element tag = doc.createElement(service.getName());
                 root.appendChild(tag);
@@ -127,7 +135,7 @@ public class CreateSecureOffer {
             // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml"))));
             // BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml")); 
             System.out.println("le monde ++++");
-            FileWriter filewritter = new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offerProvider.xml");
+            FileWriter filewritter = new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\providers\\Secureoffer.xml");
             BufferedWriter bw = new BufferedWriter(filewritter);
             //filewritter = null;
 
@@ -138,8 +146,5 @@ public class CreateSecureOffer {
         }
 
     }
-
-}
-
     
-
+}

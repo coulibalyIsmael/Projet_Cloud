@@ -48,8 +48,7 @@ public class MonAgent extends GatewayAgent {
             //--------------------------------------------------------------------------------
            DFAgentDescription[] result = searchDF("storage", (CloudServiceConsumer) obj);
            int count = 0;
-           for(int i=0; i<result.length; i++)
-            csc.listeProviders.add(result[i].getName()); 
+            csc.listeProviders.add(result); 
                     
                     releaseCommand(csc);
                     /* Debut:

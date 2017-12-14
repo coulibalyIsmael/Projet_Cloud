@@ -30,7 +30,7 @@ import org.w3c.dom.Text;
  */
 public class CreateOfferXML {
 
-    public void createXmlFile(CloudServicex obj) throws Exception {
+    public void createXmlFile(CloudServicex obj, String path) throws Exception {
 
                 DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder docBuilder = builderFactory.newDocumentBuilder();
@@ -76,7 +76,7 @@ public class CreateOfferXML {
             // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml"))));
             // BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml")); 
             System.out.println("le monde ++++");
-            FileWriter filewritter = new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offerConsumer.xml");
+            FileWriter filewritter = new FileWriter(path);
             BufferedWriter bw = new BufferedWriter(filewritter);
             //filewritter = null;
 

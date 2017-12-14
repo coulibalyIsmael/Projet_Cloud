@@ -24,7 +24,7 @@ public class SecureOffer implements Serializable{
     
     public void setPrice(int price)
     {
-        this.setPrice(price);
+        this.price = price;
     }
     
     

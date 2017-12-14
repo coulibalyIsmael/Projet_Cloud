@@ -117,7 +117,7 @@ public class ProviderAgent extends Agent implements CloudMarketVocabulary {
                 Object content = msg.getContentObject();
                 switch(msg.getPerformative()){
                 
-                    case ACLMessage.PROPOSE:
+                    case ACLMessage.INFORM:
                         System.out.println("Request from "+ msg.getSender().getLocalName());
                         if(content instanceof SecureNotification)
                             addBehaviour(new HandleSecureNotificationMessage(myAgent, msg));

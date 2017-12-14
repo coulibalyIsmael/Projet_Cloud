@@ -22,9 +22,11 @@ public class CloudServiceProvider implements Serializable, CloudServicex {
     private String name;
     private ArrayList<MyService> providerServices;
     private String idProvider;
+    private SecureOffer secureOffer ;
 
     public CloudServiceProvider() {
         providerServices = new ArrayList();
+        secureOffer = new SecureOffer();
 
     }
 
@@ -68,6 +70,20 @@ public class CloudServiceProvider implements Serializable, CloudServicex {
     @Override
     public String getID() {
         return this.idProvider;
+    }
+
+    /**
+     * @return the secureOffer
+     */
+    public SecureOffer getSecureOffer() {
+        return secureOffer;
+    }
+
+    /**
+     * @param secureOffer the secureOffer to set
+     */
+    public void setSecureOffer(SecureOffer secureOffer) {
+        this.secureOffer = secureOffer;
     }
 
 }

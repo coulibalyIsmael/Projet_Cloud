@@ -52,9 +52,9 @@ public class GatewayServlet extends HttpServlet {
 
     //public JadeGateway gateway = null;
     public CloudServiceConsumer csc;
-    private int computeLevel;
-    private int networkLevel;
-    private int storageLevel;
+    private int computeLevel,  networkLevel, storageLevel;
+    private String secureComputeLevel, secureNetworkLevel, secureStorageLevel;
+    
     private String nameCSC;
 
     /**
@@ -83,25 +83,45 @@ public class GatewayServlet extends HttpServlet {
         computeLevel = Integer.parseInt(request.getParameter("computeRadio"));
         networkLevel = Integer.parseInt(request.getParameter("networkRadio"));
         storageLevel = Integer.parseInt(request.getParameter("storageRadio"));
+        
+        //security level
+        secureComputeLevel =request.getParameter("computeSecureRadio");
+        secureStorageLevel =request.getParameter("storageSecureRadio");
+        secureNetworkLevel = request.getParameter("networkSecureRadio");
+        
 
-        System.out.println(storageLevel);
-
-        csc = new CloudServiceConsumer(nameCSC);
+        csc = new CloudServiceConsumer();
         csc.setName(nameCSC);
         csc.addServices("Compute", computeLevel);
         csc.addServices("Storage", storageLevel);
         csc.addServices("Network", networkLevel);
+        
+        //secure offer
+        csc.getSecureOffer().addServices("secureCompute", secureComputeLevel);
+        csc.getSecureOffer().addServices("secureNetwork", secureNetworkLevel);
+        csc.getSecureOffer().addServices("secureStorage", secureStorageLevel);
+        System.out.println(request.getParameter("price"));
+        csc.getSecureOffer().setPrice(Integer.parseInt(request.getParameter("price")));
+        
+        csc.setID(""+new Random().nextInt(Integer.MAX_VALUE));
 
         if (request.getParameter("valider") != null) {
             try {
                 //creation du fichier XML offerConsumer
-                new CreateOfferXML().createXmlFile(csc);
-               
+                String pathFile = servletContext.getRealPath("/WEB-INF/outputXML")+"\\OfferClient.xml";
+                String path = servletContext.getRealPath("/WEB-INF/outputXML/")+ "secureOfferClient.xml";
+               new CreateOfferXML().createXmlFile(csc,  pathFile);
+               new CreateSecureOfferXML().createXmlFile(csc, path);
+               System.out.println(path);
+                //String pathFile = servletContext.getRealPath("/WEB-INF/outputXML")+"\\secureOfferClient.xml";
+                
+                //File file = new File(pathFile);
+                //System.out.println(file.getAbsoluteFile());
                 //JadeGateway execution S
                 
-                    //gateway.execute(csc);
-                    EntryPointJade.getInstance().execute(csc);
-                   
+                    gateway.execute(csc);
+                   // EntryPointJade.getInstance().execute(csc);
+                  
                
             } catch (Exception e) {
                 e.printStackTrace();
@@ -110,15 +130,17 @@ public class GatewayServlet extends HttpServlet {
 
             
 
-            out.print("Cloud Service Consumer: " + csc.name + "<br>");
+            /*out.print("Cloud Service Consumer: " + csc.getName() + "<br>");
             for (int i = 0; i < csc.listeProviders.size(); i++) {
                 out.print("Provider: " + i + "  " + csc.listeProviders.get(i).getName() + "<br>");
             }
 
-            out.print("<br/><a href='index.html'> Retour</a>");
+            out.print("<br/><a href='index.html'> Retour</a>");*/
 
             out.flush();
             out.close();
+            request.setAttribute("CSCObject", csc);
+            request.getRequestDispatcher("/ShowProviders").forward(request, response);
 
         } 
 

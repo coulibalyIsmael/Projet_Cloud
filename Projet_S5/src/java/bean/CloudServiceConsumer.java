@@ -7,6 +7,7 @@ package bean;
 
 import interfaces.CloudServicex;
 import jade.core.AID;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,15 +27,14 @@ import org.dom4j.io.XMLWriter;
  */
 public class CloudServiceConsumer implements Serializable, CloudServicex {
 
-    public ArrayList<AID> listeProviders = null;
+    public ArrayList<DFAgentDescription[]> listeProviders = null;
     public String name;
     private ArrayList<MyService> consumerServices;
     private String ID;
     private SecureOffer secureOffer ;
 
 //constructionn 
-    public CloudServiceConsumer(String name) {
-        this.name = name;
+    public CloudServiceConsumer() {
         listeProviders = new ArrayList<>();
         consumerServices = new ArrayList();
         secureOffer = new SecureOffer();
@@ -64,6 +64,20 @@ public class CloudServiceConsumer implements Serializable, CloudServicex {
 
         this.consumerServices.add(srv);
 
+    }
+
+    /**
+     * @return the secureOffer
+     */
+    public SecureOffer getSecureOffer() {
+        return secureOffer;
+    }
+
+    /**
+     * @param secureOffer the secureOffer to set
+     */
+    public void setSecureOffer(SecureOffer secureOffer) {
+        this.secureOffer = secureOffer;
     }
 
     @Override
