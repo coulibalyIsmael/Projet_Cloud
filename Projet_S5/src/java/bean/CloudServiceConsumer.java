@@ -27,7 +27,7 @@ import org.dom4j.io.XMLWriter;
  */
 public class CloudServiceConsumer implements Serializable, CloudServicex {
 
-    public ArrayList<DFAgentDescription[]> listeProviders = null;
+    private ArrayList<DFAgentDescription[]> listeProviders = null;
     public String name;
     private ArrayList<MyService> consumerServices;
     private String ID;
@@ -127,6 +127,20 @@ public class CloudServiceConsumer implements Serializable, CloudServicex {
     @Override
     public void setID(String ID) {
         this.ID = ID;
+    }
+
+    /**
+     * @return the listeProviders
+     */
+    public ArrayList<DFAgentDescription[]> getListeProviders() {
+        return listeProviders;
+    }
+
+    /**
+     * @param listeProviders the listeProviders to set
+     */
+    public void setListeProviders(ArrayList<DFAgentDescription[]> listeProviders) {
+        this.listeProviders = listeProviders;
     }
 
 }

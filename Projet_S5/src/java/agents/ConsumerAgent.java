@@ -17,6 +17,10 @@ import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.Random;
 
 /**
  *
@@ -26,12 +30,14 @@ public class ConsumerAgent  extends Agent implements CloudMarketVocabulary{
     
     private Object[] args;
     private CloudServiceConsumer csc;
+    protected static int cidCnt = 0;
+    MessageTemplate templateSecureNotif;
     
     protected void setup() {
         args = getArguments();
         if (args != null) {
             csc= (CloudServiceConsumer) args[0];
-            System.out.println(csc);
+            //System.out.println(csc);
             
              AID providerName = new AID(csc.getName(), AID.ISLOCALNAME);
 
@@ -68,6 +74,8 @@ public class ConsumerAgent  extends Agent implements CloudMarketVocabulary{
                         System.out.println("Request from "+ msg.getSender().getLocalName());
                         if(content instanceof CloudServiceConsumer)
                             addBehaviour(new SearchInDF(myAgent, msg));
+                        else if(content instanceof DFAgentDescription)
+                            
                         break;
                         
                         
@@ -81,7 +89,7 @@ public class ConsumerAgent  extends Agent implements CloudMarketVocabulary{
     }
     //-----------------
     
-    
+    //-------------------------------------Search services-------------------------------------------
     class SearchInDF extends OneShotBehaviour{
         private ACLMessage request;
 
@@ -114,6 +122,76 @@ public class ConsumerAgent  extends Agent implements CloudMarketVocabulary{
             fe.printStackTrace();
         }
         }
+    
+    }
+    
+    //-----send secure notification---------------------------------
+    
+    class sendSecureNotification extends OneShotBehaviour{
+        private ACLMessage request;
+        public sendSecureNotification(Agent agent, ACLMessage msg) {
+            super(agent);
+            request = msg;
+            
+        }
+        
+
+        @Override
+        public void action() {
+            try {
+                ACLMessage msg = newMsg(ACLMessage.INFORM, new SecureOfferNotification("Notification") );
+                templateSecureNotif = MessageTemplate.and( 
+            MessageTemplate.MatchPerformative( ACLMessage.INFORM ),
+            MessageTemplate.MatchConversationId( msg.getConversationId() )); 
+                
+                 for(DFAgentDescription agentDescr: csc.getListeProviders().get(0))
+             {  
+                 msg.addReceiver( new AID( agentDescr.getName().getLocalName(),  AID.ISLOCALNAME ));
+                 send(msg);
+                
+             
+             }
+            
+            } catch (Exception e) {
+            }
+            
+             
+             
+            
+            
+        }
+        
+        //  --- generating Conversation IDs -------------------
+    
+    String cidBase;
+
+    String genCID() {
+        if (cidBase == null) {
+            cidBase = getLocalName() + hashCode()
+                    + System.currentTimeMillis() % 10000 + "_";
+        }
+        return cidBase + (cidCnt++);
+    }
+
+//  --- generating distinct Random generator -------------------
+    Random newRandom() {
+        return new Random(hashCode() + System.currentTimeMillis());
+    }
+
+    //  --- Methods to initialize ACLMessages -------------------
+    ACLMessage newMsg(int perf, Object content) throws IOException {
+        ACLMessage msg = newMsg(perf);
+        msg.setContentObject((Serializable) content);
+        return msg;
+    }
+
+    ACLMessage newMsg(int perf) {
+        ACLMessage msg = new ACLMessage(perf);
+        msg.setConversationId(genCID());
+        return msg;
+    }
+    
+    
     
     }
     

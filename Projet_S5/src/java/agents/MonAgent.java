@@ -26,7 +26,6 @@ import java.util.ArrayList;
  *
  * @author couli
  */
-
 public class MonAgent extends GatewayAgent {
 
     public AID[] resultatFinal = null;
@@ -40,18 +39,18 @@ public class MonAgent extends GatewayAgent {
             CloudServiceConsumer csc = (CloudServiceConsumer) obj;
             String catService = "";
             ArrayList<MyService> service = csc.getServices();
-           for(MyService srv: csc.getServices())
-                System.out.println(srv.getName()+srv.getType());
+            for (MyService srv : csc.getServices()) {
+                System.out.println(srv.getName() + srv.getType());
+            }
 
-           // final String CAT_SERVICE = catService;
-           // System.out.println(catService);
+            // final String CAT_SERVICE = catService;
+            // System.out.println(catService);
             //--------------------------------------------------------------------------------
-           DFAgentDescription[] result = searchDF("storage", (CloudServiceConsumer) obj);
-           int count = 0;
-            csc.listeProviders.add(result); 
-                    
-                    releaseCommand(csc);
-                    /* Debut:
+            DFAgentDescription[] result = searchDF("storage", (CloudServiceConsumer) obj);
+            
+            csc.getListeProviders().add(result);
+            releaseCommand(csc);
+            /* Debut:
                     for (int i = 0; i < result.length; i++) {
                         Iterator prop = result[i].getAllServices();
                         LesServices:
@@ -66,10 +65,8 @@ public class MonAgent extends GatewayAgent {
                             }
                         }
                     }*/
-            
-            
 
-            /*addBehaviour(new SimpleBehaviour() {
+ /*addBehaviour(new SimpleBehaviour() {
                 @Override
                 public void action() {
                     //System.out.println("hhhhhhhisshjhgfdfgdfhfgdsfg");
@@ -99,7 +96,6 @@ public class MonAgent extends GatewayAgent {
                 }
 
             });*/
-
         }
 
     }
@@ -125,7 +121,7 @@ public class MonAgent extends GatewayAgent {
 
         try {
             DFAgentDescription[] result = DFService.search(this, dfd, ALL);
-            
+
             return result;
 
         } catch (FIPAException fe) {

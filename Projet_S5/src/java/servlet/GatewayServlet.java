@@ -33,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.*;
 import java.util.Random;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.*;
 
 import javax.xml.transform.*;
@@ -130,17 +131,20 @@ public class GatewayServlet extends HttpServlet {
 
             
 
-            /*out.print("Cloud Service Consumer: " + csc.getName() + "<br>");
+           /* out.print("Cloud Service Consumer: " + csc.getName() + "<br>");
             for (int i = 0; i < csc.listeProviders.size(); i++) {
                 out.print("Provider: " + i + "  " + csc.listeProviders.get(i).getName() + "<br>");
             }
 
             out.print("<br/><a href='index.html'> Retour</a>");*/
-
+           HttpSession session = request.getSession();
+            session.setAttribute("CSCObject", csc);
+            session.setAttribute("name", csc.getName());
+            request.getRequestDispatcher("/showProviders.jsp").forward(request, response);
             out.flush();
             out.close();
-            request.setAttribute("CSCObject", csc);
-            request.getRequestDispatcher("/ShowProviders").forward(request, response);
+            //request.setAttribute("CSCObject", csc);
+           
 
         } 
 
