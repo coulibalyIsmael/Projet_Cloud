@@ -7,6 +7,7 @@ package bean;
 
 import interfaces.CloudServicex;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.StringWriter;
 import java.util.Random;
@@ -79,7 +80,8 @@ public class CreateSecureOfferXML {
             // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml"))));
             // BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml")); 
             System.out.println("le monde ++++");
-            FileWriter filewritter = new FileWriter(path);
+            File file = new File(path);
+            FileWriter filewritter = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(filewritter);
             //filewritter = null;
 
@@ -135,7 +137,8 @@ public class CreateSecureOfferXML {
             // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml"))));
             // BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml")); 
             System.out.println("le monde ++++");
-            FileWriter filewritter = new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\providers\\Secureoffer.xml");
+            File file = new File(path);
+            FileWriter filewritter = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(filewritter);
             //filewritter = null;
 

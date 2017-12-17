@@ -44,7 +44,7 @@ public class CreateOfferXML {
             //ID tag
             Element id = doc.createElement("id");
             root.appendChild(id);
-            Text textID = doc.createTextNode("" + new Random().nextInt());
+            Text textID = doc.createTextNode("" + csc.getID());
             id.appendChild(textID);
 
             //Name tag
@@ -75,6 +75,7 @@ public class CreateOfferXML {
             // OutputStreamWriter outStream = new OutputStreamWriter( new FileOutputStream());
             // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml"))));
             // BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml")); 
+            File file = new File(path);
             System.out.println("le monde ++++");
             FileWriter filewritter = new FileWriter(path);
             BufferedWriter bw = new BufferedWriter(filewritter);
@@ -83,6 +84,7 @@ public class CreateOfferXML {
             bw.write(xmlString);
             bw.flush();
             bw.close();
+           
 
         } else {
 
@@ -93,7 +95,7 @@ public class CreateOfferXML {
             //ID tag
             Element id = doc.createElement("id");
             root.appendChild(id);
-            Text textID = doc.createTextNode("" + new Random().nextInt());
+            Text textID = doc.createTextNode("" + csp.getID());
             id.appendChild(textID);
 
             //Name tag
@@ -125,7 +127,10 @@ public class CreateOfferXML {
             // BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml"))));
             // BufferedWriter bw = new BufferedWriter(new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml")); 
             System.out.println("le monde ++++");
-            FileWriter filewritter = new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offerProvider.xml");
+            //FileWriter filewritter = new FileWriter("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offerProvider.xml");
+            File file = new File(path);
+            FileWriter filewritter = new FileWriter(file, false);
+            System.out.println(file.getAbsolutePath());
             BufferedWriter bw = new BufferedWriter(filewritter);
             //filewritter = null;
 

@@ -93,9 +93,10 @@ public class GatewayServlet extends HttpServlet  implements CloudMarketVocabular
 
         csc = new CloudServiceConsumer();
         csc.setName(nameCSC);
-        csc.addServices("Compute", computeLevel);
-        csc.addServices("Storage", storageLevel);
-        csc.addServices("Network", networkLevel);
+        csc.addServices("compute", computeLevel);
+        csc.addServices("network", networkLevel);
+        csc.addServices("storage", storageLevel);
+        
         
         //secure offer
         csc.getSecureOffer().addServices("secureCompute", secureComputeLevel);
@@ -111,8 +112,8 @@ public class GatewayServlet extends HttpServlet  implements CloudMarketVocabular
                 //creation du fichier XML offerConsumer
                 
                 //Windows
-                String pathFile = servletContext.getRealPath("/WEB-INF/outputXML")+"\\OfferClient.xml";
-                String path = servletContext.getRealPath("/WEB-INF/outputXML")+ "secureOfferClient.xml";
+                String pathFile = servletContext.getRealPath("/WEB-INF/outputXML")+"\\Offer"+csc.getName()+".xml";
+                String path = servletContext.getRealPath("/WEB-INF/outputXML")+ "/SsecureOffer"+csc.getName()+".xml";
                 
                 
                 //linux file system

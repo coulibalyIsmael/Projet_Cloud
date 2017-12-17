@@ -86,9 +86,10 @@ public class ProviderGatewayServlet extends HttpServlet implements CloudMarketVo
         //ID du provider
         csp.setID(""+new Random().nextInt(Integer.MAX_VALUE));
         try {
-            pathFile = servletContext.getRealPath("/WEB-INF/outputXML")+"\\secureOfferClient.xml";
+            pathFile = servletContext.getRealPath("/WEB-INF/outputXML")+"/secureOffer"+csp.getName()+".xml";
+           String path =servletContext.getRealPath("/WEB-INF/outputXML")+"/Offer"+csp.getName()+".xml";
             new CreateSecureOfferXML().createXmlFile(csp,pathFile);
-            new CreateOfferXML().createXmlFile(csp, pathFile);
+            new CreateOfferXML().createXmlFile(csp, path);
                 
                 gateway.execute(new CommandExecution().command(CREATE_PROVIDER, csp));
             
