@@ -109,11 +109,23 @@ public class GatewayServlet extends HttpServlet  implements CloudMarketVocabular
         if (request.getParameter("valider") != null) {
             try {
                 //creation du fichier XML offerConsumer
+                
+                //Windows
                 String pathFile = servletContext.getRealPath("/WEB-INF/outputXML")+"\\OfferClient.xml";
-                String path = servletContext.getRealPath("/WEB-INF/outputXML/")+ "secureOfferClient.xml";
+                String path = servletContext.getRealPath("/WEB-INF/outputXML")+ "secureOfferClient.xml";
+                
+                
+                //linux file system
+                //String pathFile = servletContext.getRealPath("/WEB-INF/outputXML")+"/OfferClient.xml";
+                //String path = servletContext.getRealPath("/WEB-INF/outputXML")+ "/secureOfferClient.xml";
+                
+                
                new CreateOfferXML().createXmlFile(csc,  pathFile);
                new CreateSecureOfferXML().createXmlFile(csc, path);
                System.out.println(path);
+               
+               //linux
+               
                 //String pathFile = servletContext.getRealPath("/WEB-INF/outputXML")+"\\secureOfferClient.xml";
                 
                 //File file = new File(pathFile);
@@ -188,51 +200,5 @@ public class GatewayServlet extends HttpServlet  implements CloudMarketVocabular
         JadeGateway.init("agents.MonAgent", pp);
     }
 
-    public void createXmlFile(Document doc) throws Exception {
-
-        //System.out.println("Creatin du fichier offer");
-        
-        Element root = doc.createElement("offer");
-        doc.appendChild(root);
-
-        //ID tag
-        Element id = doc.createElement("id");
-        root.appendChild(id);
-        Text textID = doc.createTextNode("" + hashCode() + new Random().nextInt());
-        id.appendChild(textID);
-
-        //Name tag
-        Element name = doc.createElement("name");
-        root.appendChild(name);
-        Text textName = doc.createTextNode(csc.getName());
-        name.appendChild(textName);
-
-        for (MyService service : csc.getServices()) {
-            Element tag = doc.createElement(service.getName());
-            root.appendChild(tag);
-            Text text = doc.createTextNode(service.getType());
-            tag.appendChild(text);
-        }
-
-        //System.out.println("fin de l'écriture dans le fichier----------------------------------------------////*/8898*528");
-
-        TransformerFactory factory = TransformerFactory.newInstance();
-        Transformer transformer = factory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        StringWriter sw = new StringWriter();
-        StreamResult result = new StreamResult(sw);
-        DOMSource source = new DOMSource(doc);
-        transformer.transform(source, result);
-        String xmlString = sw.toString();
-         //System.out.println("fichier creeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee**************");
-        File file = new File("C:\\Users\\couli\\Documents\\NetBeansProjects\\Projet_S5\\web\\outputFiles\\offer.xml");
-        //File file = new File("D:/offer.xml");
-        System.out.println(file.getAbsoluteFile());
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-        bw.write(xmlString);
-        bw.flush();
-        bw.close();
-        
-    }
 
 }
