@@ -85,7 +85,7 @@ public class CloudServiceConsumer implements Serializable, CloudServicex {
         return this.consumerServices;
     }
 
-    public void createXmlFile(String path) {
+    /*public void createXmlFile(String path) {
 
         try {
             System.out.println("Creatin du fichier offer");
@@ -117,7 +117,7 @@ public class CloudServiceConsumer implements Serializable, CloudServicex {
             e.printStackTrace();
         }
 
-    }
+    }*/
 
     @Override
     public String getID() {
