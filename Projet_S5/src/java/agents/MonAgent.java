@@ -6,11 +6,15 @@
 package agents;
 
 import bean.CloudServiceConsumer;
+import bean.CloudServiceProvider;
 import bean.MyService;
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.SimpleBehaviour;
+import jade.domain.AMSService;
 import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.AMSAgentDescription;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.SearchConstraints;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -20,24 +24,34 @@ import jade.util.leap.Iterator;
 import jade.wrapper.gateway.*;
 import java.util.Properties;
 import jade.domain.FIPAAgentManagement.Property;
+import jade.lang.acl.ACLMessage;
+import jade.wrapper.AgentContainer;
+import jade.wrapper.AgentController;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
  * @author couli
  */
-public class MonAgent extends GatewayAgent {
+public class MonAgent extends GatewayAgent implements CloudMarketVocabulary {
+    //Command to execute 
 
+    //-----------------------------
     public AID[] resultatFinal = null;
     private boolean finished = false;
-
+    CloudServiceConsumer csc;
+    
     @Override
     protected void processCommand(Object obj) {
         System.out.println(this.getLocalName() + "--------******************----------");
-
-        if (obj instanceof CloudServiceConsumer) {
-            CloudServiceConsumer csc = (CloudServiceConsumer) obj;
-            String catService = "";
+        HashMap<String, Object> cmd = (HashMap<String, Object>) obj;
+        if (cmd.containsKey(CREATE_CONSUMER)) {
+            csc = (CloudServiceConsumer) cmd.get(CREATE_CONSUMER);
+            System.out.println(csc.getName());
+            //String catService = "";
             ArrayList<MyService> service = csc.getServices();
             for (MyService srv : csc.getServices()) {
                 System.out.println(srv.getName() + srv.getType());
@@ -46,68 +60,89 @@ public class MonAgent extends GatewayAgent {
             // final String CAT_SERVICE = catService;
             // System.out.println(catService);
             //--------------------------------------------------------------------------------
-            DFAgentDescription[] result = searchDF("storage", (CloudServiceConsumer) obj);
-            
-            csc.getListeProviders().add(result);
-            releaseCommand(csc);
-            /* Debut:
-                    for (int i = 0; i < result.length; i++) {
-                        Iterator prop = result[i].getAllServices();
-                        LesServices:
-                        while (prop.hasNext()) {
-                            Iterator it = ((ServiceDescription) prop.next()).getAllProperties();
-                            System.out.println(((Properties) it).get("compute"));
-                            if ((CAT_SERVICE.contains("compute") && ((Properties) it).get("compute") != null)
-                                    || (CAT_SERVICE.contains("storage") && ((Properties) it).get("storage") != null)
-                                    || (CAT_SERVICE.contains("network") && ((Properties) it).get("network") != null)) {
-                                csc.listeProviders.add(result[i].getName());
-                                System.out.println("11");
-                            }
-                        }
-                    }*/
+            //Creation of Cloud service Consumer
+            try {
+                AgentContainer container = getContainerController();
+                AgentController a = container.createNewAgent(csc.getName(), "agents.ConsumerAgent", new Object[]{csc});
+                a.start();
+                ACLMessage sendMsg = new ACLMessage(ACLMessage.INFORM);
+                sendMsg.addReceiver(new AID(csc.getName(), AID.ISLOCALNAME));
+                sendMsg.setContentObject(csc);
+                send(sendMsg);
+                ACLMessage msg = blockingReceive();
+                
+                DFAgentDescription[] result = (DFAgentDescription[]) msg.getContentObject();
+                
+                csc.getListeProviders().add(result);
+                //releaseCommand(csc);
 
- /*addBehaviour(new SimpleBehaviour() {
-                @Override
-                public void action() {
-                    //System.out.println("hhhhhhhisshjhgfdfgdfhfgdsfg");
-                    DFAgentDescription[] result = searchDF("provicer", (CloudServiceCustomer) obj);
-                    int count = 0;
-                    Debut:
-                    for (int i = 0; i < result.length; i++) {
-                        Iterator prop = result[i].getAllServices();
-                        LesServices:
-                        while (prop.hasNext()) {
-                            Iterator it = ((ServiceDescription) prop.next()).getAllProperties();
-                            System.out.println(((Properties) it).get("compute"));
-                            if ((CAT_SERVICE.contains("compute") && ((Properties) it).get("compute") != null)
-                                    || (CAT_SERVICE.contains("storage") && ((Properties) it).get("storage") != null)
-                                    || (CAT_SERVICE.contains("network") && ((Properties) it).get("network") != null)) {
-                                csc.listeProviders.add(result[i].getName());
-                                System.out.println("11");
-                            }
+            } catch (Exception e) {
+            }
+        } 
+        
+        else if (cmd.containsKey(CONTACT_PROVIDER)) {
+            //CloudServiceProvider csp = (CloudServiceProvider) cmd.get(obj);
+           System.out.println(csc.getListeProviders().get(0)[0].getName().getLocalName() + "+++++++++++++++++++++++//////////////////////+++++++++++");
+            DFAgentDescription[] providers = csc.getListeProviders().get(0);
+            try {
+                System.out.println("Message sending ---------...------------");
+                System.out.println(csc.getName());
+                //AMSAgentDescription[] agents = AMSService.search(myAgent, new AMSAgentDescription());
+                ACLMessage forward = newMsg(ACLMessage.INFORM, providers, new AID(csc.getName(), AID.ISLOCALNAME));
+                send(forward);
+                blockingReceive();
+                
+            } catch (Exception e) {
+            }
+
+            /*addBehaviour(new OneShotBehaviour(this) {
+                    @Override
+                    public void action() {
+                       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                        try {
+                            System.out.println("Message sending ---------...------------");
+                            System.out.println(csc.getName());
+                            //AMSAgentDescription[] agents = AMSService.search(myAgent, new AMSAgentDescription());
+                             ACLMessage forward = newMsg(ACLMessage.INFORM, providers, new AID(csc.getName(),AID.ISLOCALNAME));
+                             send(forward);
+                             blockingReceive();
+                             
+                        } catch (Exception e) {
                         }
+                      
+                       
                     }
-
-                }
-
-                @Override
-                public boolean done() {
-                    return finished;
-                }
-
-            });*/
+                });*/
+        } else if (cmd.containsKey(CREATE_PROVIDER)) {
+            
+            CloudServiceProvider csp = (CloudServiceProvider) cmd.get(CREATE_PROVIDER);
+            // String catService = "";
+            AgentContainer container = getContainerController();
+            
+            try {
+                System.out.println(csp.getName() + "--------");
+                AgentController a = container.createNewAgent(csp.getName(), "agents.ProviderAgent", new Object[]{csp});
+                a.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+        } else {
+            System.out.println("Unknown command");
         }
-
+        
+        releaseCommand(obj);
+        
     }
-
+    
     @Override
     protected void setup() {
         super.setup();
-        System.out.println("Le monde");
+        // System.out.println("Le monde");
         //block(20);
-        System.out.println(this.getLocalName() + "--------+++++++++++-----------");
+        //System.out.println(this.getLocalName() + "--------+++++++++++-----------");
     }
-
+    
     DFAgentDescription[] searchDF(String service, CloudServiceConsumer obj) //  ---------------------------------
     {
         //supposition que tous les providers offrent les trois services storage compute et network
@@ -115,19 +150,49 @@ public class MonAgent extends GatewayAgent {
         ServiceDescription sd = new ServiceDescription();
         sd.setName(service);
         dfd.addServices(sd);
-
+        
         SearchConstraints ALL = new SearchConstraints();
         ALL.setMaxResults(new Long(-1));
-
+        
         try {
             DFAgentDescription[] result = DFService.search(this, dfd, ALL);
-
+            
             return result;
-
+            
         } catch (FIPAException fe) {
             fe.printStackTrace();
         }
-
+        
         return null;
     }
+
+    //////////////////////////////////////////////////////////----------------------------------------------------------------------------------
+    //  --- generating Conversation IDs -------------------
+    protected static int cidCnt = 0;
+    String cidBase;
+    
+    String genCID() {
+        if (cidBase == null) {
+            cidBase = getLocalName() + hashCode()
+                    + System.currentTimeMillis() % 10000 + "_";
+        }
+        return cidBase + (cidCnt++);
+    }
+
+    //  --- Methods to initialize ACLMessages -------------------
+    ACLMessage newMsg(int perf, DFAgentDescription[] content, AID dest) throws IOException {
+        ACLMessage msg = newMsg(perf);
+        if (dest != null) {
+            msg.addReceiver(dest);
+        }
+        msg.setContentObject(content);
+        return msg;
+    }
+    
+    ACLMessage newMsg(int perf) {
+        ACLMessage msg = new ACLMessage(perf);
+        msg.setConversationId(genCID());
+        return msg;
+    }
+    
 }

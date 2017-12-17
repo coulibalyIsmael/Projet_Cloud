@@ -18,6 +18,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.Property;
 import jade.lang.acl.*;
 import java.io.Serializable;
+import java.security.Provider;
 import java.util.Random;
 //import jade.domain.introspection.ACLMessage;
 
@@ -40,6 +41,7 @@ public class ProviderAgent extends Agent implements CloudMarketVocabulary {
 
         SequentialBehaviour sb = new SequentialBehaviour();
         sb.addSubBehaviour(new RegisterInDF(this));
+        sb.addSubBehaviour(new ReceivedMessages(this));
         addBehaviour(sb);
         }
         
@@ -118,9 +120,10 @@ public class ProviderAgent extends Agent implements CloudMarketVocabulary {
                 switch(msg.getPerformative()){
                 
                     case ACLMessage.INFORM:
-                        System.out.println("Request from "+ msg.getSender().getLocalName());
-                        if(content instanceof SecureNotification)
+                        System.out.println("Request from  Consumer"+ msg.getSender().getLocalName());
+                        if(content instanceof SecureOfferNotification)
                             addBehaviour(new HandleSecureNotificationMessage(myAgent, msg));
+                        
                         break;
                         
                         
@@ -150,12 +153,12 @@ public class ProviderAgent extends Agent implements CloudMarketVocabulary {
            // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             try {
                 SecureOfferNotification notif = (SecureOfferNotification) request.getContentObject();
-                Offer offer = new Offer();
-                offer.setPrice(new  Random().nextFloat());
-                offer.setMsg("Provider offer");
+                //Offer offer = new Offer();
+               // offer.setPrice(new  Random().nextFloat());
+               // offer.setMsg("Provider offer");
                 ACLMessage reply = request.createReply();
                 reply.setPerformative(ACLMessage.INFORM);
-                reply.setContentObject(offer);
+                reply.setContent("Ack");
                 send(reply);
                 
                 
@@ -163,6 +166,9 @@ public class ProviderAgent extends Agent implements CloudMarketVocabulary {
             }
         }
     }
+    
+    
+  
     
     
         

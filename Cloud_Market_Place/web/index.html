@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Ejemplo2 JadeGateWay</title>
+    </head>
+    <body>
+        <br><h1>Interface Cloud Service Consumer</h1><br>
+        <HR>
+        <form id="operationBox" method="post" action="http://localhost:8084/Cloud_Market_Place/CSCServlet">
+            <input type="hidden" name="action" value="valider"/>
+             Nom :   <input type="text" name="nom"/><br>
+            <input type="checkbox" name="service" value="compute"> Compute<br>
+            <input type="checkbox" name="service" value="storage" checked> Storage<br>
+            <input type="checkbox" name="service" value="network" checked> Network <br>
+            <input type="submit" value="Submit">
+            <input type="reset" value="reset"/>
+        </form>
+    </body>
+</html>

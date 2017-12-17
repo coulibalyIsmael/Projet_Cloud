@@ -5,6 +5,7 @@
  */
 package servlet;
 
+import agents.CloudMarketVocabulary;
 import bean.*;
 import jade.core.AID;
 import jade.core.Profile;
@@ -38,7 +39,7 @@ import org.w3c.dom.Text;
  * @author couli
  */
 @WebServlet(name = "ProviderGatewayServlet", urlPatterns = {"/ProviderGatewayServlet"})
-public class ProviderGatewayServlet extends HttpServlet {
+public class ProviderGatewayServlet extends HttpServlet implements CloudMarketVocabulary{
 
    private String nameCSP;
    private int computeLevel, networkLevel, storageLevel;
@@ -89,7 +90,7 @@ public class ProviderGatewayServlet extends HttpServlet {
             new CreateSecureOfferXML().createXmlFile(csp,pathFile);
             new CreateOfferXML().createXmlFile(csp, pathFile);
                 
-                gateway.execute(csp);
+                gateway.execute(new CommandExecution().command(CREATE_PROVIDER, csp));
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -144,7 +145,7 @@ public class ProviderGatewayServlet extends HttpServlet {
         Properties pp = new Properties();
         pp.setProperty(Profile.MAIN_HOST, "localhost");
         pp.setProperty(Profile.MAIN_PORT, "1099");
-        JadeGateway.init("agents.ProviderGateway", pp);
+        JadeGateway.init("agents.MonAgent", pp);
     }  
     
     

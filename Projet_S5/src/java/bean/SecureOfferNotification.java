@@ -12,9 +12,23 @@ import java.io.Serializable;
  * @author couli
  */
 public class SecureOfferNotification implements Serializable {
-    public String message;
+    private String message;
 
     public SecureOfferNotification(String msg) {
+        this.message = message;
+    }
+
+    /**
+     * @return the message
+     */
+    public String getMessage() {
+        return message;
+    }
+
+    /**
+     * @param message the message to set
+     */
+    public void setMessage(String message) {
         this.message = message;
     }
     

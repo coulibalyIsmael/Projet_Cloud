@@ -46,7 +46,7 @@ import org.w3c.dom.*;
  * @author couli
  */
 @WebServlet(name = "GatewayServlet", urlPatterns = {"/GatewayServlet"})
-public class GatewayServlet extends HttpServlet {
+public class GatewayServlet extends HttpServlet  implements CloudMarketVocabulary{
 
     static final long serialVersionUID = 1L;
     private JadeGateway gateway;
@@ -119,8 +119,8 @@ public class GatewayServlet extends HttpServlet {
                 //File file = new File(pathFile);
                 //System.out.println(file.getAbsoluteFile());
                 //JadeGateway execution S
-                
-                    gateway.execute(csc);
+                    System.out.println(csc.getName()+"-----------------/*/*/*/*/////////////*/*/*");
+                    gateway.execute(new CommandExecution().command(CREATE_CONSUMER, csc));
                    // EntryPointJade.getInstance().execute(csc);
                   
                

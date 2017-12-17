@@ -5,7 +5,9 @@
  */
 package servlet;
 
+import agents.CloudMarketVocabulary;
 import bean.CloudServiceConsumer;
+import bean.CommandExecution;
 import jade.core.Profile;
 import jade.util.leap.Properties;
 import jade.wrapper.gateway.JadeGateway;
@@ -23,7 +25,7 @@ import javax.servlet.http.HttpSession;
  * @author couli
  */
 @WebServlet(name = "ContactProvidersServlet", urlPatterns = {"/ContactProviders"})
-public class ContactProvidersServlet extends HttpServlet {
+public class ContactProvidersServlet extends HttpServlet  implements CloudMarketVocabulary{
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,9 +42,10 @@ public class ContactProvidersServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         CloudServiceConsumer csc = (CloudServiceConsumer) session.getAttribute("CSCObject");
-        System.out.println();
+        System.out.println(csc.getName());
         try {
-            JadeGateway.execute(csc.getListeProviders());
+            System.out.println(csc.getName()+"-*-/-/-/-/------------------/-*");
+            JadeGateway.execute(new CommandExecution().command(CONTACT_PROVIDER, csc));
         } catch (Exception e) {
         }
         
@@ -108,7 +111,7 @@ public class ContactProvidersServlet extends HttpServlet {
         Properties pp = new Properties();
         pp.setProperty(Profile.MAIN_HOST, "localhost");
         pp.setProperty(Profile.MAIN_PORT, "1099");
-        JadeGateway.init("agents.ContactProvidersAgent", pp);
+        JadeGateway.init("agents.MonAgent", pp);
     }
 
 }

@@ -32,15 +32,18 @@ public class ConsumerAgent  extends Agent implements CloudMarketVocabulary{
     private CloudServiceConsumer csc;
     protected static int cidCnt = 0;
     MessageTemplate templateSecureNotif;
+    ACLMessage msgRcvFromContr;
     
     protected void setup() {
+        
+        
         args = getArguments();
         if (args != null) {
             csc= (CloudServiceConsumer) args[0];
             //System.out.println(csc);
             
              AID providerName = new AID(csc.getName(), AID.ISLOCALNAME);
-
+          
         SequentialBehaviour sb = new SequentialBehaviour();
         sb.addSubBehaviour(new ReceivedMessages(this));
         addBehaviour(sb);
@@ -70,11 +73,16 @@ public class ConsumerAgent  extends Agent implements CloudMarketVocabulary{
                 Object content = msg.getContentObject();
                 switch(msg.getPerformative()){
                 
-                    case ACLMessage.REQUEST:
+                    case ACLMessage.INFORM:
                         System.out.println("Request from "+ msg.getSender().getLocalName());
                         if(content instanceof CloudServiceConsumer)
                             addBehaviour(new SearchInDF(myAgent, msg));
-                        else if(content instanceof DFAgentDescription)
+                        else if(content instanceof DFAgentDescription[])
+                            addBehaviour(new SendSecureNotification(myAgent, msg));
+                        else if (content instanceof String && content == "Ack")
+                            addBehaviour(new AckMessageBehaviour(myAgent, msg));
+                        else
+                            System.out.println("Nothing important");
                             
                         break;
                         
@@ -105,7 +113,8 @@ public class ConsumerAgent  extends Agent implements CloudMarketVocabulary{
            
             DFAgentDescription dfd = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
-        sd.setType("Provider");
+        sd.setName("Compute");
+        //sd.setType("Provider");
         dfd.addServices(sd);
 
         SearchConstraints ALL = new SearchConstraints();
@@ -127,11 +136,12 @@ public class ConsumerAgent  extends Agent implements CloudMarketVocabulary{
     
     //-----send secure notification---------------------------------
     
-    class sendSecureNotification extends OneShotBehaviour{
+    class SendSecureNotification extends OneShotBehaviour{
         private ACLMessage request;
-        public sendSecureNotification(Agent agent, ACLMessage msg) {
+        public SendSecureNotification(Agent agent, ACLMessage msg) {
             super(agent);
             request = msg;
+            msgRcvFromContr = msg;
             
         }
         
@@ -139,15 +149,14 @@ public class ConsumerAgent  extends Agent implements CloudMarketVocabulary{
         @Override
         public void action() {
             try {
-                ACLMessage msg = newMsg(ACLMessage.INFORM, new SecureOfferNotification("Notification") );
-                templateSecureNotif = MessageTemplate.and( 
-            MessageTemplate.MatchPerformative( ACLMessage.INFORM ),
-            MessageTemplate.MatchConversationId( msg.getConversationId() )); 
                 
+                //ACLMessage msg = newMsg(ACLMessage.INFORM, new SecureOfferNotification("Notification") );
                  for(DFAgentDescription agentDescr: csc.getListeProviders().get(0))
-             {  
-                 msg.addReceiver( new AID( agentDescr.getName().getLocalName(),  AID.ISLOCALNAME ));
-                 send(msg);
+             {  ACLMessage mes =  new ACLMessage(ACLMessage.INFORM);
+                 mes.setContentObject(new SecureOfferNotification("Notification"));
+                 System.out.println(agentDescr.getName().getLocalName() +"-*/-*/-/-/-/-/-++++++++.......");
+                 mes.addReceiver( new AID( agentDescr.getName().getLocalName(),  AID.ISLOCALNAME ));
+                 send(mes);
                 
              
              }
@@ -193,6 +202,33 @@ public class ConsumerAgent  extends Agent implements CloudMarketVocabulary{
     
     
     
+    }
+    
+    class AckMessageBehaviour extends OneShotBehaviour{
+
+        private ACLMessage request;
+        
+        public AckMessageBehaviour(Agent ag, ACLMessage msg)
+        {
+            request = msg;
+        }
+        protected void setup(){
+        
+        }
+        
+        @Override
+        public void action() {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if(msgRcvFromContr != null)
+            {
+                ACLMessage reply = msgRcvFromContr.createReply();
+                reply.setContent("Ack from" + request.getSender().getLocalName());
+                reply.setPerformative(ACLMessage.INFORM);
+                send(reply);
+
+            }
+            
+        }
     }
     
     

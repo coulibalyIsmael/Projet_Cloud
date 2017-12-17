@@ -1,0 +1,2 @@
+cloudServiceX.Service
+cloudServiceX.CloudServiceProvider
