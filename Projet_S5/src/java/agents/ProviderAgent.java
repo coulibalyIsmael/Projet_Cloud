@@ -10,6 +10,8 @@ import jade.core.behaviours.OneShotBehaviour;
 import jade.domain.FIPAAgentManagement.Register;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import bean.*;
+import jade.content.lang.Codec;
+import jade.content.lang.xml.XMLCodec;
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.SequentialBehaviour;
@@ -122,7 +124,11 @@ public class ProviderAgent extends Agent implements CloudMarketVocabulary {
                     case ACLMessage.INFORM:
                         System.out.println("Request from  Consumer"+ msg.getSender().getLocalName());
                         if(content instanceof SecureOfferNotification)
-                            addBehaviour(new HandleSecureNotificationMessage(myAgent, msg));
+                        {addBehaviour(new HandleSecureNotificationMessage(myAgent, msg));
+                        
+                        
+                        }
+                        
                         
                         break;
                         
@@ -165,6 +171,30 @@ public class ProviderAgent extends Agent implements CloudMarketVocabulary {
             } catch (Exception e) {
             }
         }
+    }
+    
+    class SendSecureOffer extends OneShotBehaviour{
+        private ACLMessage request;
+        private Codec xmlCodec = new XMLCodec() ;
+        public SendSecureOffer(Agent agent, ACLMessage msg) {
+            super(agent);
+            request = msg;
+            
+        }
+        
+        
+
+        @Override
+        public void action() {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            getContentManager().registerLanguage(xmlCodec);
+            ACLMessage contactMPC = new ACLMessage(ACLMessage.INFORM);
+            contactMPC.setLanguage(XMLCodec.NAME);
+            
+           
+        }
+    
+    
     }
     
     
