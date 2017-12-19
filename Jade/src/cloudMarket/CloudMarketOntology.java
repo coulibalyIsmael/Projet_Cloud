@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ontology;
+package cloudMarket;
 
-import agents.CloudMarketVocabulary;
+import cloudMarket.CloudMarketVocabulary;
 import jade.content.onto.BasicOntology;
 import jade.content.onto.Ontology;
 import jade.content.schema.ConceptSchema;
@@ -40,16 +40,17 @@ public class CloudMarketOntology extends Ontology implements CloudMarketVocabula
             //mySevice 
             ConceptSchema myServiceSchema = new ConceptSchema(MYSERVICE);
             myServiceSchema.add(MYSERVICE_NAME, stringSchema);
-            myServiceSchema.add(MYSERVICE_TYPE, intSchema);
-            add(myServiceSchema, bean.MyService.class);
+            myServiceSchema.add(MYSERVICE_TYPE,stringSchema);
+            add(myServiceSchema, cloudMarket.MyService.class);
             
             
             //Secure Offer
             ConceptSchema secureOfferSchema = new ConceptSchema(SECURE_OFFER);
             secureOfferSchema.add(SECURE_OFFER_ID, stringSchema);
             secureOfferSchema.add(SECURE_OFFER_PRICE, intSchema);
+            secureOfferSchema.add(SECURE_OFFER_NAME, stringSchema);
             secureOfferSchema.add(SECURE_OFFER_SERVICES, (ConceptSchema)getSchema(MYSERVICE),1,ObjectSchema.UNLIMITED);
-            add(secureOfferSchema, bean.SecureOfferTest.class);
+            add(secureOfferSchema, cloudMarket.SecureOfferTest.class);
             
             
             

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package agents;
+package cloudMarket;
 
 import java.util.HashMap;
 
@@ -19,7 +19,7 @@ public interface CloudMarketVocabulary {
     public final String NEED_COMPUTATION="NEED_COMPUTATION";
     
     //Secure offer class
-    public final String SECURE_OFFER="SECURE_OFFER";
+    public final String SECURE_OFFER="SecureOfferTest";
     public final String SECURE_OFFER_PRICE="price";
     public final String SECURE_OFFER_ID="id";
     public final String SECURE_OFFER_NAME="name";

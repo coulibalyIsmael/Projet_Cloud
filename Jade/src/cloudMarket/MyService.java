@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bean;
+package cloudMarket;
 
+import jade.content.AgentAction;
 import jade.content.Concept;
 import jade.domain.FIPAAgentManagement.Property;
 import java.io.Serializable;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  *
  * @author couli
  */
-public class MyService implements Serializable, Concept{
+public class MyService implements  Concept{
     private String type;
     private String name;
 

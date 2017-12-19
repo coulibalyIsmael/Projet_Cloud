@@ -3,13 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/cloudMarket/CloudMarketVocabulary.java</file>
             <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/com/CSC.java</file>
-            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/jade/Acheteur1.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/cloudMarket/MyService.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/cloudMarket/CloudMarketOntology.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/cloudMarket/SecureOfferTest.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/cloudMarket/Pong.java</file>
             <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/jade/Negociation.java</file>
-            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/jade/SearchDF2.java</file>
-            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/comp/Agent1.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/cloudMarket/Sender.java</file>
             <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/jade/SearchDF1.java</file>
             <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/jade/Vendeur1.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/jade/Acheteur1.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/messages/Sender.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/messages/Pong.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/jade/SearchDF2.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/messages/Receiver.java</file>
+            <file>file:/C:/Users/couli/Documents/NetBeansProjects/Jade/src/comp/Agent1.java</file>
         </group>
     </open-files>
 </project-private>

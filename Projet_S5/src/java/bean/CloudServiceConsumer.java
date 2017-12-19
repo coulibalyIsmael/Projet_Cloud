@@ -15,11 +15,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import javax.servlet.http.HttpServletResponse;
-import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
+
 
 /**
  *
@@ -84,40 +80,6 @@ public class CloudServiceConsumer implements Serializable, CloudServicex {
     public ArrayList<MyService> getServices() {
         return this.consumerServices;
     }
-
-    /*public void createXmlFile(String path) {
-
-        try {
-            System.out.println("Creatin du fichier offer");
-            Document document = DocumentHelper.createDocument();
-            Element root = document.addElement("offer");
-            root.addElement("id")
-                    .addText(this.getID());
-            root.addElement("name")
-                    .addText(this.getName());
-
-            for (MyService srv : consumerServices) {
-                root.addElement(srv.getName())
-                        .addText(srv.getType());
-            }
-
-            // Pretty print the document to System.out
-            // lets write to a file
-            FileOutputStream fos = new FileOutputStream(path + "offer.xml");
-            OutputFormat format = OutputFormat.createPrettyPrint();
-            XMLWriter writer = new XMLWriter(fos, format);
-            writer.write(document);
-            System.out.println("fin de l'écriture dans le fichier");
-            writer.flush();
-
-            //XMLWriter writer = new XMLWriter(new FileWriter(this.getName()+"comsumer_offer.xml"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }*/
 
     @Override
     public String getID() {
